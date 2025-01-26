@@ -1,0 +1,1294 @@
+:root {
+    --primary-color: #8b0000;
+    --secondary-color: #4a4a4a;
+    --background-color: #f5e6d3;
+    --furnace-color: #2c3e50;
+    --fire-color: #ff4500;
+    --border-color: #8b4513;
+    --scroll-color: #d4a017;
+    --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+@font-face {
+    font-family: 'XiaoLi';
+    src: url('https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk@main/Sans/OTF/Chinese-Simplified/NotoSansCJKsc-Regular.otf') format('opentype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "楷体", "仿宋", "SimSun", "Microsoft YaHei", serif;
+    background-color: var(--background-color);
+    color: var(--secondary-color);
+    line-height: 1.6;
+    background-image: 
+        linear-gradient(rgba(245, 230, 211, 0.9), rgba(245, 230, 211, 0.9)),
+        url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h100v100H0z" fill="none" stroke="%238b4513" stroke-width="0.5" stroke-dasharray="2,2"/></svg>');
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+    padding: 20px 0;
+    z-index: 2;
+}
+
+header::before, header::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--border-color), transparent);
+}
+
+header::before {
+    top: 0;
+}
+
+header::after {
+    bottom: 0;
+}
+
+h1 {
+    color: var(--primary-color);
+    font-size: 2.8em;
+    margin-bottom: 15px;
+    text-shadow: var(--text-shadow);
+    letter-spacing: 4px;
+    position: relative;
+    display: inline-block;
+}
+
+h1::before, h1::after {
+    content: '✧';
+    color: var(--border-color);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.6em;
+}
+
+h1::before {
+    left: -40px;
+}
+
+h1::after {
+    right: -40px;
+}
+
+.celestial-time {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    font-size: 1.2em;
+    color: var(--border-color);
+    margin-top: 10px;
+}
+
+.celestial-time span {
+    position: relative;
+    padding: 5px 15px;
+    background: rgba(139, 69, 19, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+main {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+}
+
+.furnace-container {
+    position: relative;
+    aspect-ratio: 1;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    z-index: 5;
+}
+
+.furnace {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #463E3F, #2c3e50);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3),
+                inset 0 0 50px rgba(0, 0, 0, 0.3);
+    border: 12px solid #463E3F;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    animation: glowPulse 3s infinite;
+    position: relative;
+    z-index: 6;
+}
+
+.furnace::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 20%);
+    pointer-events: none;
+    border-radius: 10px;
+}
+
+.furnace-top {
+    height: 20%;
+    background: linear-gradient(to bottom, #463E3F, #34495e);
+    border-radius: 20px 20px 0 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.furnace-top::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    height: 40%;
+    background: #2c3e50;
+    border-radius: 50%;
+    border: 3px solid #463E3F;
+}
+
+.furnace-body {
+    height: 60%;
+    position: relative;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.9));
+    overflow: hidden;
+    position: relative;
+    z-index: 7;
+}
+
+/* 炼丹进度条 */
+.alchemy-progress {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 14;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(to right, #ff4500, #ffd700);
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    animation: progressShimmer 2s infinite;
+}
+
+@keyframes progressShimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* 丹药成型效果 */
+.elixir-forming {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, 
+        rgba(255, 215, 0, 0.8) 0%,
+        rgba(255, 69, 0, 0.6) 50%,
+        transparent 100%);
+    opacity: 0;
+    transition: all 0.5s ease;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.elixir-forming.active {
+    opacity: 1;
+    animation: pulseGlow 2s infinite;
+}
+
+/* 炼丹阶段指示器 */
+.stage-indicator {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ffd700;
+    font-size: 1.2em;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 15;
+}
+
+.stage-indicator.active {
+    opacity: 1;
+}
+
+/* 能量波动效果 */
+.energy-waves {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 9;
+}
+
+.energy-wave {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    animation: energyWave 4s infinite;
+}
+
+.energy-waves.active {
+    opacity: 1;
+}
+
+/* 动画效果 */
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes energyWave {
+    0% {
+        width: 0%;
+        height: 0%;
+        opacity: 0.8;
+    }
+    100% {
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+}
+
+/* 五行能量效果 */
+.element-energy {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.element-energy::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center,
+        transparent 0%,
+        rgba(255, 215, 0, 0.1) 50%,
+        transparent 100%);
+    animation: elementPulse 3s infinite;
+}
+
+@keyframes elementPulse {
+    0% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+}
+
+/* 成功完成特效 */
+.completion-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 12;
+}
+
+.completion-effect.success {
+    background: radial-gradient(
+        circle at center,
+        rgba(0, 255, 0, 0.2) 0%,
+        transparent 70%
+    );
+    animation: successPulse 2s ease-out;
+}
+
+.completion-effect.failure {
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 0, 0, 0.2) 0%,
+        transparent 70%
+    );
+    animation: failurePulse 2s ease-out;
+}
+
+@keyframes successPulse {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+@keyframes failurePulse {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+#reaction-canvas {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+.furnace-bottom {
+    height: 20%;
+    background: linear-gradient(to bottom, #34495e, #463E3F);
+    border-radius: 0 0 20px 20px;
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.fire-control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    position: relative;
+    z-index: 20;
+}
+
+.fire-control input[type="range"] {
+    width: 80%;
+    margin: 10px 0;
+    -webkit-appearance: none;
+    background: transparent;
+    position: relative;
+    z-index: 21;
+}
+
+.fire-control input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(to right, #ff4500, #ff8c00);
+    border-radius: 4px;
+}
+
+.fire-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #fff;
+    margin-top: -6px;
+    border: 2px solid #ff4500;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255,69,0,0.5);
+}
+
+.fire-effect {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: 
+        radial-gradient(ellipse at 50% 100%, 
+            rgba(255,69,0,0.8) 0%,
+            rgba(255,69,0,0.4) 30%,
+            transparent 70%);
+    animation: fireAnimation 2s infinite alternate;
+    transform-origin: center bottom;
+    z-index: 8;
+}
+
+@keyframes fireAnimation {
+    0% {
+        transform: scaleY(0.8) scaleX(0.95);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scaleY(1.1) scaleX(1.05);
+        opacity: 1;
+    }
+}
+
+.smoke-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 10;
+}
+
+.smoke-effect.active {
+    opacity: 1;
+}
+
+/* 添加药材粒子的基础样式 */
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    transition: transform 0.3s, opacity 0.3s;
+    z-index: 9;
+}
+
+/* 药材特效 */
+.particle-effect {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+    animation: particleGlow 1.5s infinite alternate;
+    z-index: 11;
+}
+
+@keyframes particleGlow {
+    0% {
+        box-shadow: 0 0 5px currentColor;
+        opacity: 0.7;
+    }
+    100% {
+        box-shadow: 0 0 15px currentColor;
+        opacity: 1;
+    }
+}
+
+.control-panel {
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(139, 69, 19, 0.2);
+    position: relative;
+    overflow: visible;
+    z-index: 10;
+}
+
+.control-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary-color), var(--border-color));
+    border-radius: 4px 4px 0 0;
+}
+
+.recipe-section,
+.ingredients-section,
+.operation-section {
+    margin-bottom: 30px;
+    position: relative;
+}
+
+h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    text-shadow: var(--text-shadow);
+    position: relative;
+    padding-left: 20px;
+}
+
+h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 70%;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(139, 69, 19, 0.3);
+    border-radius: 10px;
+    background: white;
+    color: var(--secondary-color);
+    font-family: inherit;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%238b4513' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    position: relative;
+    z-index: 50;
+}
+
+select:hover {
+    border-color: var(--primary-color);
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.1);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, var(--primary-color), #a52a2a);
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(139, 0, 0, 0.2);
+    position: relative;
+    z-index: 30;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 0, 0, 0.3);
+}
+
+.primary-btn:active {
+    transform: scale(0.95);
+}
+
+.danger-btn {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
+    position: relative;
+    z-index: 30;
+}
+
+.danger-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3);
+}
+
+.danger-btn:active {
+    transform: scale(0.95);
+}
+
+.ingredients-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid rgba(139, 69, 19, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    position: relative;
+    z-index: 15;
+}
+
+.ingredients-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ingredients-list::-webkit-scrollbar-track {
+    background: rgba(139, 69, 19, 0.1);
+    border-radius: 4px;
+}
+
+.ingredients-list::-webkit-scrollbar-thumb {
+    background: var(--scroll-color);
+    border-radius: 4px;
+}
+
+.ingredient-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 15px;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.9);
+    animation: floatAnimation 3s infinite;
+    animation-delay: calc(var(--animation-offset, 0) * 0.5s);
+    overflow: visible;
+}
+
+.ingredient-item:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: translateX(5px);
+    z-index: 100;
+}
+
+.ingredient-item:last-child {
+    border-bottom: none;
+}
+
+.ingredient-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 45%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.1) 55%,
+        transparent 100%
+    );
+    transform: translateX(-100%);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.ingredient-item:hover::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle at center,
+        rgba(139, 0, 0, 0.1) 0%,
+        transparent 70%
+    );
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+.ingredient-name {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.ingredient-quality,
+.ingredient-element {
+    font-size: 0.9em;
+    color: var(--secondary-color);
+    text-align: center;
+    padding: 4px 8px;
+    background: rgba(139, 69, 19, 0.1);
+    border-radius: 15px;
+}
+
+.add-ingredient-btn {
+    padding: 6px 12px;
+    background: linear-gradient(135deg, var(--primary-color), #a52a2a);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 30;
+}
+
+.add-ingredient-btn:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(139, 0, 0, 0.2);
+}
+
+.add-ingredient-btn:not(:disabled):active {
+    transform: scale(0.95);
+}
+
+.add-ingredient-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.selected-ingredients {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    border: 1px solid rgba(139, 69, 19, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 25;
+}
+
+.empty-ingredients {
+    text-align: center;
+    color: var(--secondary-color);
+    padding: 20px;
+    font-style: italic;
+}
+
+.selected-ingredient {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.selected-ingredient:last-child {
+    margin-bottom: 0;
+}
+
+.selected-ingredient:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 101;
+}
+
+.selected-ingredient span {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.ingredient-info {
+    display: flex;
+    gap: 15px;
+    color: var(--secondary-color);
+    font-size: 0.9em;
+}
+
+.ingredient-info span {
+    padding: 4px 8px;
+    background: rgba(139, 69, 19, 0.1);
+    border-radius: 15px;
+    font-weight: normal;
+    color: var(--secondary-color);
+}
+
+.remove-ingredient-btn {
+    width: auto;
+    padding: 6px 12px;
+    margin: 0;
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    border: none;
+    font-size: 0.9em;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 30;
+}
+
+.remove-ingredient-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2);
+}
+
+.remove-ingredient-btn:active {
+    transform: scale(0.95);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    min-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(139, 69, 19, 0.2);
+    z-index: 1001;
+}
+
+.modal-content h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 0;
+}
+
+.modal-content h2::before {
+    display: none;
+}
+
+#result-message {
+    font-size: 1.2em;
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(139, 69, 19, 0.1);
+}
+
+#success-rate {
+    font-size: 1.1em;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+#close-modal {
+    margin-top: 20px;
+    background: linear-gradient(135deg, var(--primary-color), #a52a2a);
+    color: white;
+    width: auto;
+    padding: 10px 30px;
+    border-radius: 20px;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    main {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .furnace-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .control-panel {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .celestial-time {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .ingredient-item {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .modal-content {
+        min-width: 300px;
+        padding: 20px;
+        margin: 0 20px;
+    }
+}
+
+/* 添加新的动画效果 */
+@keyframes floatAnimation {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes glowPulse {
+    0% {
+        box-shadow: 0 0 5px rgba(139, 0, 0, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(139, 0, 0, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(139, 0, 0, 0.2);
+    }
+}
+
+/* 添加炼丹炉能量波动效果 */
+.energy-field {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 69, 0, 0.1) 0%,
+        rgba(139, 0, 0, 0.05) 50%,
+        transparent 70%
+    );
+    animation: energyPulse 4s infinite;
+}
+
+@keyframes energyPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.3;
+    }
+}
+
+/* 添加材料光晕效果 */
+.ingredient-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 45%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.1) 55%,
+        transparent 100%
+    );
+    transform: translateX(-100%);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* 添加按钮点击效果 */
+.primary-btn:active,
+.danger-btn:active {
+    transform: scale(0.95);
+}
+
+/* 添加材料选择悬浮效果 */
+.ingredient-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.ingredient-item:hover::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle at center,
+        rgba(139, 0, 0, 0.1) 0%,
+        transparent 70%
+    );
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+/* 添加进度条动画效果 */
+.progress-bar {
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    animation: progressShimmer 2s infinite;
+}
+
+@keyframes progressShimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* 添加炼丹成功/失败特效 */
+.completion-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.completion-effect.success {
+    background: radial-gradient(
+        circle at center,
+        rgba(0, 255, 0, 0.2) 0%,
+        transparent 70%
+    );
+    animation: successPulse 2s ease-out;
+}
+
+.completion-effect.failure {
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 0, 0, 0.2) 0%,
+        transparent 70%
+    );
+    animation: failurePulse 2s ease-out;
+}
+
+@keyframes successPulse {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+@keyframes failurePulse {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* 添加药材时的动画效果 */
+.ingredient-item {
+    animation: slideIn 0.5s ease-out;
+    animation-fill-mode: both;
+    animation-delay: calc(var(--animation-offset) * 0.1s);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 确保按钮悬浮状态可见 */
+.add-ingredient-btn:hover,
+.remove-ingredient-btn:hover,
+.primary-btn:hover,
+.danger-btn:hover {
+    z-index: 102;
+} 

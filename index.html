@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古籍炼丹模拟器</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>太上炼丹秘术</h1>
+            <div class="celestial-time">
+                <span id="lunar-date">农历：待定</span>
+                <span id="solar-term">节气：待定</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="furnace-container">
+                <div id="furnace" class="furnace">
+                    <div class="furnace-top"></div>
+                    <div class="furnace-body">
+                        <canvas id="reaction-canvas"></canvas>
+                    </div>
+                    <div class="furnace-bottom">
+                        <div class="fire-control">
+                            <label for="fire-intensity">火候调节</label>
+                            <input type="range" id="fire-intensity" min="1" max="100" value="50" title="调节炼丹火候">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-panel">
+                <div class="recipe-section">
+                    <h2>丹方选择</h2>
+                    <select id="recipe-select" title="选择炼制丹方">
+                        <option value="">请选择丹方</option>
+                    </select>
+                    <button id="search-recipe">搜索道藏丹方</button>
+                </div>
+
+                <div class="ingredients-section">
+                    <h2>药材选择</h2>
+                    <div id="ingredients-list" class="ingredients-list">
+                        <!-- 动态加载药材列表 -->
+                    </div>
+                </div>
+
+                <div class="operation-section">
+                    <button id="start-alchemy" class="primary-btn">开始炼丹</button>
+                    <button id="stop-alchemy" class="danger-btn" disabled>停止</button>
+                </div>
+            </div>
+        </main>
+
+        <div id="result-modal" class="modal">
+            <div class="modal-content">
+                <h2>炼丹结果</h2>
+                <p id="result-message"></p>
+                <div id="success-rate"></div>
+                <button id="close-modal">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/lunar.js"></script>
+    <script src="js/physics.js"></script>
+    <script src="js/alchemy.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 
