@@ -1288,7 +1288,84 @@ button:hover::before {
 /* 确保按钮悬浮状态可见 */
 .add-ingredient-btn:hover,
 .remove-ingredient-btn:hover,
-.primary-btn:hover,
-.danger-btn:hover {
-    z-index: 102;
-} 
+
+/* 八卦动态背景 */
+.bagua-overlay {
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: 
+        repeating-conic-gradient(from 0deg, 
+            rgba(139, 0, 0, 0.1) 0deg 15deg, 
+            transparent 15deg 30deg);
+    animation: rotateBagua 60s linear infinite;
+    opacity: 0.1;
+}
+
+@keyframes rotateBagua {
+    100% { transform: rotate(360deg); }
+}
+
+/* 药材动态光效 */
+.ingredient-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.ingredient-item::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        rgba(255,215,0,0.1) 10%,
+        rgba(255,69,0,0.2) 30%,
+        transparent 60%
+    );
+    animation: elementFlow 6s infinite linear;
+}
+
+@keyframes elementFlow {
+    0% { transform: translate(-25%, -25%) rotate(0deg); }
+    100% { transform: translate(-25%, -25%) rotate(360deg); }
+    /* 炼丹炉动态光效 */
+.furnace.processing {
+    animation: 
+        furnaceGlow 1.5s ease-in-out infinite alternate,
+        furnacePulse 3s ease infinite;
+}
+
+@keyframes furnaceGlow {
+    from { box-shadow: 0 0 30px rgba(255,69,0,0.3); }
+    to { box-shadow: 0 0 60px rgba(255,69,0,0.6); }
+}
+
+@keyframes furnacePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.005); }
+    100% { transform: scale(1); }
+}
+
+/* 粒子效果 */
+.particle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: var(--color);
+    border-radius: 50%;
+    pointer-events
+}
+
+/* 添加丹方特性标识 */
+option[data-special]::after {
+    content: ' ✦';
+    color: #8b0000;
+}
+
+option[data-difficulty="5"] {
+    color: #ff0000;
+    font-weight: bold;
+}

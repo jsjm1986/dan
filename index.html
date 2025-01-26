@@ -32,25 +32,42 @@
                 </div>
             </div>
 
+            <div class="taiji-container">
+                <div class="taiji-symbol">
+                    <div class="yin"></div>
+                    <div class="yang"></div>
+                </div>
+            </div>
+
             <div class="control-panel">
-                <div class="recipe-section">
-                    <h2>丹方选择</h2>
-                    <select id="recipe-select" title="选择炼制丹方">
-                        <option value="">请选择丹方</option>
-                    </select>
-                    <button id="search-recipe">搜索道藏丹方</button>
-                </div>
-
-                <div class="ingredients-section">
-                    <h2>药材选择</h2>
-                    <div id="ingredients-list" class="ingredients-list">
-                        <!-- 动态加载药材列表 -->
+                <div class="bagua-overlay"></div>
+                <div class="panel-content">
+                    <div class="recipe-section">
+                        <h2>丹方选择</h2>
+                        <select id="recipe-select">
+                            <option value="">请选择丹方</option>
+                            ${CONFIG.RECIPES.map(recipe => `
+                                <option value="${recipe.id}" 
+                                    data-difficulty="${recipe.difficulty}"
+                                    ${recipe.specialCondition ? 'data-special="'+recipe.specialCondition+'"' : ''}>
+                                    ${recipe.name}（${'★'.repeat(recipe.difficulty)}）
+                                </option>
+                            `).join('')}
+                        </select>
+                        <button id="search-recipe">搜索道藏丹方</button>
                     </div>
-                </div>
 
-                <div class="operation-section">
-                    <button id="start-alchemy" class="primary-btn">开始炼丹</button>
-                    <button id="stop-alchemy" class="danger-btn" disabled>停止</button>
+                    <div class="ingredients-section">
+                        <h2>药材选择</h2>
+                        <div id="ingredients-list" class="ingredients-list">
+                            <!-- 动态加载药材列表 -->
+                        </div>
+                    </div>
+
+                    <div class="operation-section">
+                        <button id="start-alchemy" class="primary-btn">开始炼丹</button>
+                        <button id="stop-alchemy" class="danger-btn" disabled>停止</button>
+                    </div>
                 </div>
             </div>
         </main>
@@ -60,6 +77,7 @@
                 <h2>炼丹结果</h2>
                 <p id="result-message"></p>
                 <div id="success-rate"></div>
+                <ul id="result-effects"></ul>
                 <button id="close-modal">确定</button>
             </div>
         </div>

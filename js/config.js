@@ -15,12 +15,41 @@ const CONFIG = {
 
     // 丹药品质等级
     QUALITY_LEVELS: {
-        FAILED: 0,
-        NORMAL: 1,
-        GOOD: 2,
-        EXCELLENT: 3,
-        PERFECT: 4,
-        IMMORTAL: 5,
+        FAILED: {
+            displayName: '失败',
+            color: '#ff4444',
+            effects: []
+        },
+        NORMAL: {
+            displayName: '凡品',
+            color: '#a0a0a0',
+            mainEffect: '强身健体',
+            effects: ['气血通畅']
+        },
+        GOOD: {
+            displayName: '良品', 
+            color: '#98fb98',
+            mainEffect: '延年益寿',
+            effects: ['耳聪目明', '精力充沛']
+        },
+        EXCELLENT: {
+            displayName: '上品',
+            color: '#87ceeb',
+            mainEffect: '洗经伐髓',
+            effects: ['内力增长', '根骨提升']
+        },
+        PERFECT: {
+            displayName: '极品',
+            color: '#ff6347',
+            mainEffect: '延寿百年',
+            effects: ['强身健体', '青春永驻']
+        },
+        IMMORTAL: {
+            displayName: '仙品',
+            color: '#FFD700',
+            mainEffect: '羽化登仙',
+            effects: ['长生不老', '百毒不侵', '御空飞行']
+        }
     },
 
     // 基础药材列表
@@ -31,6 +60,9 @@ const CONFIG = {
         { id: 'realgar', name: '雄黄', element: '土', quality: 2 },
         { id: 'pearl', name: '珍珠', element: '水', quality: 4 },
         { id: 'amber', name: '琥珀', element: '木', quality: 3 },
+        { id: 'phoenix_herb', name: '凤血草', quality: 3, element: '火', properties: ['再生', '灼热'] },
+        { id: 'cloud_grass', name: '云影草', quality: 4, element: '风', properties: ['轻盈', '迅捷'] },
+        { id: 'moonlight_stone', name: '月华石', quality: 5, element: '水', properties: ['阴寒', '滋养'] },
     ],
 
     // 预设丹方列表
@@ -74,6 +106,56 @@ const CONFIG = {
             effects: ['化浊为清', '炼神返虚'],
             optimal_fire: 75,
             best_term: 'XIAOSHU'
+        },
+        {
+            id: 'basic_qi',
+            name: '基础养气丹',
+            description: '修士入门级丹药，可调理气息',
+            difficulty: 1,
+            requiredIngredients: ['ginseng', 'poria'],
+            effects: ['气血通畅']
+        },
+        {
+            id: 'jade_purity',
+            name: '清心玉露丹',
+            description: '清除心魔，提升悟性',
+            difficulty: 3,
+            requiredIngredients: ['snow_lotus', 'pearl', 'amber'],
+            effects: ['灵台清明', '悟性提升'],
+            specialCondition: '需在子时炼制',
+            ingredients: ['snow_lotus', 'pearl', 'amber']
+        },
+        {
+            id: 'nirvana',
+            name: '涅槃重生丹',
+            description: '疗伤圣药，可修复经脉',
+            difficulty: 4,
+            requiredIngredients: ['phoenix_herb', 'dragon_blood', 'ginseng'],
+            effects: ['断肢重生', '功力恢复'],
+            elementBalance: { 火: 2, 木: 1 }
+        },
+        {
+            id: 'celestial_light',
+            name: '天光云影丹',
+            description: '提升轻功修为',
+            difficulty: 5,
+            requiredIngredients: ['cloud_grass', 'moonlight_stone', 'white_tiger_bone'],
+            effects: ['身轻如燕', '凌空虚度'],
+            lunarPhase: '新月'
+        },
+        {
+            id: 'five_elements',
+            name: '五行造化丹',
+            description: '平衡五行之气',
+            difficulty: 4,
+            requiredIngredients: [
+                'golden_stone',  // 金
+                'greenwood_root',// 木
+                'abyss_water',   // 水
+                'flame_flower',  // 火
+                'yellow_earth'   // 土
+            ],
+            effects: ['五行调和', '内力精纯']
         }
     ],
 

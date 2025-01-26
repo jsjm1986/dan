@@ -1,6 +1,6 @@
 class AlchemySystem {
     constructor(physics) {
-        this.physics = physics;
+        this.physics = physics || window.physics;
         this.currentRecipe = null;
         this.selectedIngredients = [];
         this.isProcessing = false;
@@ -25,15 +25,26 @@ class AlchemySystem {
         }
     }
 
-    async analyzeRecipe(recipeText) {
-        // 简单的本地丹方分析
+    analyzeRecipe(recipeText) {
+        // 扩展关键词库
         const keywords = {
             '人参': ['补气', '养神'],
             '灵芝': ['延年', '益寿'],
             '朱砂': ['安神', '明目'],
             '雄黄': ['驱邪', '解毒'],
             '珍珠': ['养颜', '明目'],
-            '琥珀': ['镇静', '安神']
+            '琥珀': ['镇静', '安神'],
+            '凤血草': ['再生', '灼热'],
+            '云影草': ['轻盈', '迅捷'],
+            '月华石': ['阴寒', '滋养'],
+            // ...其他新增药材关键词
+        };
+
+        // 新增特殊成分检测
+        const specialComponents = {
+            '子时': { type: '时辰要求' },
+            '新月': { type: '月相要求' },
+            '五行': { type: '元素平衡' }
         };
 
         const analysis = {
@@ -47,6 +58,13 @@ class AlchemySystem {
             if (recipeText.includes(herb)) {
                 analysis.ingredients.push(herb);
                 analysis.effects.push(...effects);
+            }
+        });
+
+        // 在分析结果中添加特殊要求
+        Object.keys(specialComponents).forEach(key => {
+            if (recipeText.includes(key)) {
+                analysis.requirements.push(specialComponents[key].type);
             }
         });
 
@@ -245,6 +263,8 @@ class AlchemySystem {
         const isSuccess = Math.random() < successRate;
 
         let quality = CONFIG.QUALITY_LEVELS.FAILED;
+        const effects = [];
+
         if (isSuccess) {
             const roll = Math.random();
             if (roll > 0.99) quality = CONFIG.QUALITY_LEVELS.IMMORTAL;
@@ -252,12 +272,26 @@ class AlchemySystem {
             else if (roll > 0.85) quality = CONFIG.QUALITY_LEVELS.EXCELLENT;
             else if (roll > 0.70) quality = CONFIG.QUALITY_LEVELS.GOOD;
             else quality = CONFIG.QUALITY_LEVELS.NORMAL;
+
+            // 生成效果
+            effects.push(...quality.effects.map(e => ({
+                description: e,
+                isMain: e === quality.mainEffect,
+                success: Math.random() > 0.3 // 70%概率达成效果
+            })));
+        } else {
+            effects.push({
+                description: '药力失控导致丹毒',
+                isMain: true,
+                success: false
+            });
         }
 
         return {
             success: isSuccess,
             quality: quality,
-            successRate: successRate
+            successRate: successRate,
+            effects: effects // 添加效果数据
         };
     }
 
